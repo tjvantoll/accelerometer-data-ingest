@@ -9,11 +9,13 @@ const extractData = (payload) => {
 
     for (let i = 0; i < buffer.length; i += 6) {
       data.push([
-        dataView.getInt16(i, true),
-        dataView.getInt16(i + 2, true),
-        dataView.getInt16(i + 4, true),
+        dataView.getInt8(i, true),
+        dataView.getInt8(i + 2, true),
+        dataView.getInt8(i + 4, true),
       ]);
     }
+
+    console.log(data);
 
     return data;
   } catch (e) {
