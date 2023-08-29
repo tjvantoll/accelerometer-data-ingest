@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^2.6.12"
+  },
+  "devDependencies": {
+    "netlify-cli": "^16.2.0"
   }
 }

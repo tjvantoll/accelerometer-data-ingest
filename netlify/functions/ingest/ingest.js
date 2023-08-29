@@ -7,11 +7,17 @@ const extractData = (payload) => {
     const buffer = Buffer.from(payload, "binary");
     const dataView = new DataView(buffer.buffer);
 
-    for (let i = 0; i < buffer.length; i += 6) {
+    for (let i = 0; i <= buffer.length; i += 12) {
       data.push([
-        dataView.getInt8(i, true),
-        dataView.getInt8(i + 2, true),
-        dataView.getInt8(i + 4, true),
+        // This works
+        dataView.getInt32(i, true),
+        dataView.getInt32(i + 4, true),
+        dataView.getInt32(i + 8, true),
+
+        // This gives seemingly random numbers
+        // dataView.getFloat32(i, true),
+        // dataView.getFloat32(i + 4, true),
+        // dataView.getFloat32(i + 8, true),
       ]);
     }
 
@@ -58,6 +64,10 @@ const publishData = async (data) => {
 };
 
 exports.handler = async function (event, context) {
+  // This logs the expected value when the body contains integers, but an unexpectedly small
+  // value when the body contains floats.
+  console.log("event.body.length", event.body.length);
+
   const data = extractData(event.body);
   await publishData(data);
 
