@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const fetch = require("node-fetch");
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -75,19 +76,16 @@ const publishData = async (data) => {
   };
 
   try {
-    const response = await fetch(
-      "https://ingestion.edgeimpulse.com/api/training/data",
-      {
-        method: "POST",
-        headers: {
-          "x-api-key": "ei_5221cd19544321a0a78e85566dfcaae52b9f94dcf1b3e7ad",
-          "x-file-name": "test",
-          "x-label": "idle",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    await fetch("https://ingestion.edgeimpulse.com/api/training/data", {
+      method: "POST",
+      headers: {
+        "x-api-key": process.env.EDGE_IMPULSE_API_KEY,
+        "x-file-name": "test",
+        "x-label": "idle",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
   } catch (e) {
     console.log("Error publishing data", e);
   }
